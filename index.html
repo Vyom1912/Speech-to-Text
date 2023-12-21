@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <title>Speech to text</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(45deg, #010758, #490d61);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      .speaker {
+        display: flex;
+        justify-content: space-between;
+        width: 15rem;
+        height: 3rem;
+        box-shadow: 0 0 13px white;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+      #action {
+        color: rgb(255, 255, 255);
+        font-weight: 500;
+        padding: 0;
+        padding-left: 2rem;
+      }
+      button {
+        border: transparent;
+        padding: 0 0.5rem;
+      }
+      #output {
+        width: 450px;
+        height: 3rem;
+        text-align: center;
+        font-weight: 400;
+        letter-spacing: 1px;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="speaker">
+        <p id="action"></p>
+        <button onclick="runSpeechRecog()">Speech</button>
+      </div>
+      <h3 id="output" class="hide"></h3>
+    </div>
+    <script>
+      runSpeechRecog = () => {
+        document.getElementById("output").innerHTML = "Loading text...";
+        var output = document.getElementById("output");
+        var action = document.getElementById("action");
+        let recognization = new webkitSpeechRecognition();
+        recognization.onstart = () => {
+          action.innerHTML = "Listening...";
+        };
+        recognization.onresult = (e) => {
+          var transcript = e.results[0][0].transcript;
+          output.innerHTML = transcript;
+          output.classList.remove("hide");
+          action.innerHTML = "";
+        };
+        recognization.start();
+      };
+    </script>
+  </body>
+</html>
